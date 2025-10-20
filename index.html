@@ -192,8 +192,8 @@
             </div>
 
             <div class="form_group">
-                <label for="tel">電話番号<span>(七桁の数字で入力してください)</span></label>
-                <input type="tel" id="tel" nama="tel">
+                <label for="tel">電話番号</label>
+                <input type="tel" id="tel" nama="tel" oninput="TelNumber(this)">
             </div>
 
             <h2 class="sub_title">現住所</h2>
@@ -201,8 +201,8 @@
             <div class="zipcode_wrap">
                 <div class="zipcode_group">
                     <div class="form_group">
-                        <label for="zipcode">郵便番号<span>(ハイフンなし)</span></label>
-                        <input type="text" id="zipcode" nama="zipcode" required>
+                        <label for="zipcode">郵便番号</label>
+                        <input type="text" id="zipcode" nama="zipcode" oninput="ZipNumber(this)" required>
                     </div>
                     <button type="button" id="search_btn">検索</button>
                 </div>
@@ -269,6 +269,34 @@
         </form>
     </main>
 
+    <script>
+        function TelNumber(el) {
+            let Tel = el.value.replace(/[０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 65248));
+
+            Tel = Tel.replace(/\D/g, '');
+
+            if (Tel.length > 3 && Tel.length <= 7) {
+                Tel = Tel.slice(0, 3) + '-' + Tel.slice(3);
+            } else if (Tel.length > 7) {
+                Tel = Tel.slice(0, 3) + '-' + Tel.slice(3, 7) + '-' + Tel.slice(7, 11);
+            }
+            el.value = Tel;
+        }
+
+
+
+        function ZipNumber(el) {
+            let val = el.value.replace(/[０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 65248));
+
+            val = val.replace(/\D/g, '');
+
+            if (val.length > 3) {
+                val = val.slice(0, 3) + '-' + val.slice(3, 7);
+            }
+            el.value = val;
+        }
+
+    </script>
 </body>
 
 </html>

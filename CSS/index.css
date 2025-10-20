@@ -8,7 +8,7 @@ html {
 body {
     width: 1000px;
     margin: auto;
-    background-color: rgb(225, 225, 225);
+    background-color: rgb(247, 247, 247);
 }
 
 form {
@@ -54,6 +54,7 @@ input {
     .zipcode_group {
         display: flex;
         align-items: end;
+        gap: 20px;
 
         #zipcode {
             width: 100px;
