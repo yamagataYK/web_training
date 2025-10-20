@@ -11,7 +11,8 @@
 <body>
     <main>
         <h1 class="title">会員登録(OK.ver)</h1>
-        <form action="/index.html" method="post">
+        <form action="/index.html" method="post" class="h-adr">
+            <span class="p-country-name" style="display:none;">Japan</span>
             <h2 class="sub_title">名前</h2>
             <div class="form_group">
                 <label for="name">氏名</label>
@@ -202,13 +203,14 @@
                 <div class="zipcode_group">
                     <div class="form_group">
                         <label for="zipcode">郵便番号</label>
-                        <input type="text" id="zipcode" nama="zipcode" oninput="ZipNumber(this)" required>
+                        <input type="text" id="zipcode" class="p-postal-code" name="zipcode" oninput="ZipNumber(this)"
+                            required>
                     </div>
                     <button type="button" id="search_btn">検索</button>
                 </div>
                 <div class="form_group">
                     <label for="pref">都道府県</label>
-                    <select name="pref" id="pref" required>
+                    <select name="pref" id="pref" class="p-region" required>
                         <option value="" disabled selected>選択してください</option>
                         <option value="北海道">北海道</option>
                         <option value="青森県">青森県</option>
@@ -263,11 +265,14 @@
 
             <div class="form_group">
                 <label for="address">住所</label>
-                <input type="text" id="address" nama="address" required>
+                <input type="text" id="address" name="address" class="p-locality p-street-address " required>
             </div>
             <button type="submit" class="submit_btn">登録する</button>
         </form>
     </main>
+
+
+    <script src="https://yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
 
     <script>
         function TelNumber(el) {
@@ -296,6 +301,38 @@
             el.value = val;
         }
 
+        const hadr = document.querySelector(".h-adr");
+        const btn = document.getElementById("search_btn");
+        const postalcodeField = hadr.querySelector(".p-postal-code");
+
+
+        let cancelFlag = true;
+
+        const eventCanceler = (e) => {
+
+            if (cancelFlag) {
+                e.stopImmediatePropagation();
+            }
+            return false;
+        }
+
+
+        if (postalcodeField) {
+            postalcodeField.addEventListener('keyup', eventCanceler);
+        }
+
+
+        if (btn && postalcodeField) {
+            btn.addEventListener('click', () => {
+                cancelFlag = false;
+
+                const ev = (typeof Event === 'function') ? new Event('keyup') : (function () {
+                    const e = document.createEvent('Event'); e.initEvent('keyup', false, false); return e;
+                })();
+                postalcodeField.dispatchEvent(ev);
+                cancelFlag = true;
+            });
+        }
     </script>
 </body>
 
