@@ -11,7 +11,7 @@
 <body>
     <main>
         <h1 class="title">会員登録(OK.ver)</h1>
-        <form action="/index.html" method="post" class="h-adr">
+        <form action="/index.html" method="post" class="h-adr" id="Form">
             <span class="p-country-name" style="display:none;">Japan</span>
             <h2 class="sub_title">名前</h2>
             <div class="form_group">
@@ -129,7 +129,7 @@
                             <option value="2024">2024</option>
                             <option value="2025">2025</option>
                         </select>
-                        <span>年</span>
+                        <span id="fs">年</span>
                     </div>
 
                     <div>
@@ -148,7 +148,7 @@
                             <option value="11">11</option>
                             <option value="12">12</option>
                         </select>
-                        <span>月</span>
+                        <span id="fs">月</span>
                     </div>
 
                     <div>
@@ -186,7 +186,7 @@
                             <option value="30">30</option>
                             <option value="31">31</option>
                         </select>
-                        <span>日</span>
+                        <span id="fs">日</span>
                     </div>
 
                 </div>
@@ -194,7 +194,7 @@
 
             <div class="form_group">
                 <label for="tel">電話番号</label>
-                <input type="tel" id="tel" nama="tel" oninput="TelNumber(this)">
+                <input type="tel" id="tel" name="tel" oninput="TelNumber(this)" required>
             </div>
 
             <h2 class="sub_title">現住所</h2>
@@ -267,7 +267,7 @@
                 <label for="address">住所</label>
                 <input type="text" id="address" name="address" class="p-locality p-street-address " required>
             </div>
-            <button type="submit" class="submit_btn">登録する</button>
+            <button type="submit" class="submit_btn" disabled>登録する</button>
         </form>
     </main>
 
@@ -288,8 +288,6 @@
             el.value = Tel;
         }
 
-
-
         function ZipNumber(el) {
             let val = el.value.replace(/[０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 65248));
 
@@ -301,6 +299,7 @@
             el.value = val;
         }
 
+        //郵便番号検索
         const hadr = document.querySelector(".h-adr");
         const btn = document.getElementById("search_btn");
         const postalcodeField = hadr.querySelector(".p-postal-code");
@@ -333,6 +332,24 @@
                 cancelFlag = true;
             });
         }
+
+
+        const form = document.getElementById("Form");
+        const inputs = document.querySelectorAll("input[required]");
+        const submitBtn = document.querySelector(".submit_btn");
+
+        form.addEventListener("input", () => {
+            const all = Array.from(inputs).every(input => input.value.trim() !== "");
+
+            if (all) {
+                submitBtn.classList.add("active");
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.classList.remove("active");
+                submitBtn.disabled = true;
+            }
+        });
+
     </script>
 </body>
 
